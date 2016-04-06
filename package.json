@@ -20,6 +20,7 @@
     "dev": "nodemon --watch src --exec 'npm run prepublish'"
   },
   "dependencies": {
+    "@mnmtanish/react-split-pane": "^0.1.30",
     "babel-core": "^6.3.15",
     "babel-loader": "^6.2.0",
     "babel-polyfill": "^6.3.15",
@@ -34,7 +35,6 @@
     "node-libs-browser": "^0.5.2",
     "page-bus": "^3.0.1",
     "query-string": "^3.0.3",
-    "react-split-pane": "github:mnmtanish/react-split-pane",
     "redbox-react": "^1.2.2",
     "stack-source-map": "^1.0.4",
     "uuid": "^2.0.1",

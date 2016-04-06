@@ -11,6 +11,7 @@ var _extends3 = _interopRequireDefault(_extends2);
 exports.getControls = getControls;
 exports.getIframe = getIframe;
 exports.getActionLogger = getActionLogger;
+exports.getActionLoggerHeader = getActionLoggerHeader;
 exports.renderMain = renderMain;
 exports.default = renderAdmin;
 
@@ -37,6 +38,10 @@ var _action_logger2 = _interopRequireDefault(_action_logger);
 var _layout = require('./layout');
 
 var _layout2 = _interopRequireDefault(_layout);
+
+var _action_logger_header = require('./action_logger_header');
+
+var _action_logger_header2 = _interopRequireDefault(_action_logger_header);
 
 var _ = require('../');
 
@@ -83,7 +88,9 @@ function getIframe(data) {
   var iframeStyle = {
     width: '100%',
     height: '100%',
-    border: '0'
+    border: '1px solid #ECECEC',
+    borderRadius: 4,
+    backgroundColor: '#FFF'
   };
 
   // We need to send dataId via queryString
@@ -104,7 +111,11 @@ function getActionLogger(data) {
     return (0, _jsonStringifySafe2.default)(action, null, 2);
   }).join('\n\n');
 
-  return _react2.default.createElement(_action_logger2.default, { actionLog: log, onClear: clearLogs });
+  return _react2.default.createElement(_action_logger2.default, { actionLog: log });
+}
+
+function getActionLoggerHeader() {
+  return _react2.default.createElement(_action_logger_header2.default, { onClear: clearLogs });
 }
 
 function renderMain(data) {
@@ -112,11 +123,13 @@ function renderMain(data) {
   var controls = getControls(data);
   var iframe = getIframe(data);
   var actionLogger = getActionLogger(data);
+  var actionLoggerHeader = getActionLoggerHeader();
 
   var root = _react2.default.createElement(_layout2.default, {
     controls: controls,
     preview: iframe,
-    actionLogger: actionLogger
+    actionLogger: actionLogger,
+    actionLoggerHeader: actionLoggerHeader
   });
 
   _reactDom2.default.render(root, rootEl);

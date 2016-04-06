@@ -28,6 +28,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _layout_vsplit = require('./layout_vsplit');
+
+var _layout_vsplit2 = _interopRequireDefault(_layout_vsplit);
+
+var _reactSplitPane = require('@mnmtanish/react-split-pane');
+
+var _reactSplitPane2 = _interopRequireDefault(_reactSplitPane);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Layout = function (_React$Component) {
@@ -39,79 +47,71 @@ var Layout = function (_React$Component) {
   }
 
   (0, _createClass3.default)(Layout, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.updateHeight();
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      window.addEventListener('resize', this.updateHeight.bind(this));
-    }
-  }, {
-    key: 'updateHeight',
-    value: function updateHeight() {
-      var _document = document;
-      var documentElement = _document.documentElement;
-      var body = _document.body;
-
-      var height = documentElement.clientHeight || body.clientHeight;
-      height -= 20;
-      this.setState({ height: height });
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
       var controls = _props.controls;
       var preview = _props.preview;
       var actionLogger = _props.actionLogger;
-      var height = this.state.height;
 
 
       var rootStyles = {
-        height: height,
-        padding: 8,
+        height: '100vh',
+        // padding: 8,
         backgroundColor: '#F7F7F7'
       };
+
       var controlsStyle = {
-        width: 240,
-        float: 'left',
         height: '100%',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        padding: '5px 0 5px 10px',
+        boxSizing: 'border-box'
       };
 
       var actionStyle = {
-        height: 150,
-        marginLeft: 250
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        padding: '5px 10px 5px 0',
+        boxSizing: 'border-box'
       };
 
       var previewStyle = {
-        height: height - actionStyle.height - 25,
-        marginLeft: 250,
-        border: '1px solid #ECECEC',
-        borderRadius: 4,
-        padding: 5,
-        backgroundColor: '#FFF'
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        padding: '5px 10px 5px 0',
+        boxSizing: 'border-box'
       };
+
+      var vsplit = _react2.default.createElement(_layout_vsplit2.default, null);
+      var hsplit = this.props.actionLoggerHeader;
 
       return _react2.default.createElement(
         'div',
         { style: rootStyles },
         _react2.default.createElement(
-          'div',
-          { style: controlsStyle },
-          controls
-        ),
-        _react2.default.createElement(
-          'div',
-          { style: previewStyle },
-          preview
-        ),
-        _react2.default.createElement(
-          'div',
-          { style: actionStyle },
-          actionLogger
+          _reactSplitPane2.default,
+          { split: 'vertical', defaultSize: 250, resizerChildren: vsplit },
+          _react2.default.createElement(
+            'div',
+            { style: controlsStyle },
+            controls
+          ),
+          _react2.default.createElement(
+            _reactSplitPane2.default,
+            { split: 'horizontal', primary: 'second', defaultSize: 250, resizerChildren: hsplit },
+            _react2.default.createElement(
+              'div',
+              { style: previewStyle },
+              preview
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: actionStyle },
+              actionLogger
+            )
+          )
         )
       );
     }
@@ -122,6 +122,7 @@ var Layout = function (_React$Component) {
 Layout.propTypes = {
   controls: _react2.default.PropTypes.element.isRequired,
   preview: _react2.default.PropTypes.element.isRequired,
+  actionLoggerHeader: _react2.default.PropTypes.element.isRequired,
   actionLogger: _react2.default.PropTypes.element.isRequired
 };
 

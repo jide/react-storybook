@@ -4,6 +4,7 @@ import stringify from 'json-stringify-safe';
 import StorybookControls from './controls';
 import ActionLogger from './action_logger';
 import Layout from './layout';
+import ActionLoggerHeader from './action_logger_header';
 import { getSyncedStore } from '../';
 
 const rootEl = document.getElementById('root');
@@ -48,7 +49,9 @@ export function getIframe(data) {
   const iframeStyle = {
     width: '100%',
     height: '100%',
-    border: '0',
+    border: '1px solid #ECECEC',
+    borderRadius: 4,
+    backgroundColor: '#FFF',
   };
 
   // We need to send dataId via queryString
@@ -69,7 +72,13 @@ export function getActionLogger(data) {
     .map(action => stringify(action, null, 2))
     .join('\n\n');
 
-  return (<ActionLogger actionLog={log} onClear={clearLogs} />);
+  return (<ActionLogger actionLog={log} />);
+}
+
+export function getActionLoggerHeader() {
+  return (
+    <ActionLoggerHeader onClear={clearLogs} />
+  );
 }
 
 export function renderMain(data) {
@@ -77,12 +86,14 @@ export function renderMain(data) {
   const controls = getControls(data);
   const iframe = getIframe(data);
   const actionLogger = getActionLogger(data);
+  const actionLoggerHeader = getActionLoggerHeader();
 
   const root = (
     <Layout
       controls={controls}
       preview={iframe}
       actionLogger={actionLogger}
+      actionLoggerHeader={actionLoggerHeader}
     />
   );
 

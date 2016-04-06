@@ -1,62 +1,59 @@
 import React from 'react';
 
+import VSplit from './layout_vsplit';
+import SplitPane from '@mnmtanish/react-split-pane';
+
 class Layout extends React.Component {
-  componentWillMount() {
-    this.updateHeight();
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.updateHeight.bind(this));
-  }
-
-  updateHeight() {
-    const { documentElement, body } = document;
-    let height = documentElement.clientHeight || body.clientHeight;
-    height -= 20;
-    this.setState({ height });
-  }
-
   render() {
     const { controls, preview, actionLogger } = this.props;
-    const { height } = this.state;
 
     const rootStyles = {
-      height,
-      padding: 8,
+      height: '100vh',
+      // padding: 8,
       backgroundColor: '#F7F7F7',
     };
+
     const controlsStyle = {
-      width: 240,
-      float: 'left',
       height: '100%',
       overflowY: 'auto',
+      padding: '5px 0 5px 10px',
+      boxSizing: 'border-box',
     };
 
     const actionStyle = {
-      height: 150,
-      marginLeft: 250,
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      padding: '5px 10px 5px 0',
+      boxSizing: 'border-box',
     };
 
     const previewStyle = {
-      height: height - actionStyle.height - 25,
-      marginLeft: 250,
-      border: '1px solid #ECECEC',
-      borderRadius: 4,
-      padding: 5,
-      backgroundColor: '#FFF',
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      padding: '5px 10px 5px 0',
+      boxSizing: 'border-box',
     };
+
+    const vsplit = <VSplit />;
+    const hsplit = this.props.actionLoggerHeader;
 
     return (
       <div style={rootStyles}>
-        <div style={controlsStyle}>
-          {controls}
-        </div>
-        <div style={previewStyle}>
-          {preview}
-        </div>
-        <div style={actionStyle}>
-          {actionLogger}
-        </div>
+        <SplitPane split="vertical" defaultSize={250} resizerChildren={vsplit}>
+            <div style={controlsStyle}>
+              {controls}
+            </div>
+            <SplitPane split="horizontal" primary="second" defaultSize={250} resizerChildren={hsplit}>
+              <div style={previewStyle}>
+                {preview}
+              </div>
+              <div style={actionStyle}>
+                {actionLogger}
+              </div>
+            </SplitPane>
+        </SplitPane>
       </div>
     );
   }
@@ -65,6 +62,7 @@ class Layout extends React.Component {
 Layout.propTypes = {
   controls: React.PropTypes.element.isRequired,
   preview: React.PropTypes.element.isRequired,
+  actionLoggerHeader: React.PropTypes.element.isRequired,
   actionLogger: React.PropTypes.element.isRequired,
 };
 
