@@ -34,6 +34,7 @@
     "node-libs-browser": "^0.5.2",
     "page-bus": "^3.0.1",
     "query-string": "^3.0.3",
+    "react-split-pane": "github:mnmtanish/react-split-pane",
     "redbox-react": "^1.2.2",
     "stack-source-map": "^1.0.4",
     "uuid": "^2.0.1",
